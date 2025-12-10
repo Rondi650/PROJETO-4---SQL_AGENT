@@ -25,3 +25,4 @@ def chat_endpoint(data: PerguntaModel):
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
+# Iniciar o servidor com: uvicorn main:app --reload
