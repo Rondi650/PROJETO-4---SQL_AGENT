@@ -1,15 +1,12 @@
 from fastapi import FastAPI
 from my_agent import agent
-from pydantic import BaseModel, Field
-from typing import Annotated
-
-class PerguntaModel(BaseModel):
-    pergunta: Annotated[str, Field(min_length=1, max_length=200)]
+from my_agent.models.request import PerguntaModel
+from my_agent.models.response import RespostaModel
 
 app = FastAPI()
 
 @app.post("/chat")
-def chat_endpoint(data: PerguntaModel):
+def chat_endpoint(data: PerguntaModel) -> RespostaModel:
     """Endpoint para chat com o agente"""
     pergunta = data.pergunta
     for step in agent.stream(
@@ -20,7 +17,11 @@ def chat_endpoint(data: PerguntaModel):
         msg = step["messages"][-1].content
         msg_completa = step["messages"][-1]
         msg_completa.pretty_print()
-    return {"response": msg}
+        
+    return RespostaModel(
+        response=msg,
+        thread_id="api_conversation"
+    )
 
 if __name__ == "__main__":
     import uvicorn

@@ -1,7 +1,7 @@
 
 '''Funções auxiliares para construção de cláusulas SQL e formatação de resumos.'''
 
-def construir_clausula_where(agent: str = None, topic: str = None, where_clauses: list[str] = None) -> str:
+def construir_clausula_where(agent: str | None = None, topic: str | None = None, where_clauses: list[str] | None = None) -> str:
     '''
     Args:
         agent (str, opcional): Nome do agente.
@@ -11,6 +11,8 @@ def construir_clausula_where(agent: str = None, topic: str = None, where_clauses
     Returns:
         str: Cláusula WHERE completa.
     '''
+    if where_clauses is None:
+        where_clauses = []
     if agent:
         where_clauses.append(f"[Agent] = '{agent}'")
     if topic:
@@ -19,7 +21,7 @@ def construir_clausula_where(agent: str = None, topic: str = None, where_clauses
     where_sql = " AND ".join(where_clauses)
     return where_sql
 
-def formatar_resumo_filtros(data_inicio: str, data_fim: str, agent: str = None, topic: str = None) -> str:
+def formatar_resumo_filtros(data_inicio: str, data_fim: str, agent: str | None = None, topic: str | None = None) -> str:
     '''
     Args:
         data_inicio (str): Data de início no formato 'YYYY-MM-DD'.
