@@ -1,0 +1,24 @@
+[project]
+name = "database-ai-agents"
+version = "0.0.1"
+description = "AI Agents for Database interaction"
+requires-python = "==3.13.5"
+dependencies = [
+  "langchain",
+  "requests",
+  "langchain_community",
+  "langgraph",
+  "ipython",
+  "langchain-openai",
+  "pyodbc",
+  "python-dateutil",
+  "fastapi",
+  "uvicorn"
+]
+
+# [build-system]
+# requires = ["setuptools", "wheel"]
+# build-backend = "setuptools.build_meta"
+
+# [tool.setuptools]
+# packages = []
