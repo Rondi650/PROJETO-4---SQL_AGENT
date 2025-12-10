@@ -76,7 +76,3 @@ def ligacoes_atendidas(params: QueryParams) -> str:
 # Exportar todas as tools
 custom_tools = [ligacoes_atendidas, calcular_tmo, calcular_nps]
 all_tools = sql_tools + custom_tools
-run_query_tool = next(t for t in sql_tools if t.name == "sql_db_query")
-
-
-

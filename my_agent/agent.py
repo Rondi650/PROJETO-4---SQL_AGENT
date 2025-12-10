@@ -1,8 +1,7 @@
-from langgraph.graph import StateGraph, START
+from langgraph.graph import StateGraph, START, MessagesState
 from langgraph.prebuilt import ToolNode
 from langgraph.checkpoint.memory import InMemorySaver
 from .utils import (
-    MessagesState,
     all_tools,
     roteador,
     should_continue,

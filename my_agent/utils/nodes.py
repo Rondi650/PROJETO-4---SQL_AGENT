@@ -1,9 +1,9 @@
-from typing import Any, Literal
+from typing import Any
 from langgraph.graph import MessagesState, END
 from langchain_core.messages import AIMessage
 from my_agent.config.settings import llm
 from my_agent.config.prompts import GENERATE_QUERY_SYSTEM_PROMPT, CHECK_QUERY_SYSTEM_PROMPT
-from .tools import all_tools, run_query_tool
+from .tools import all_tools, sql_tools
 
 
 def roteador(state: MessagesState) -> dict[str, Any]:
@@ -60,6 +60,7 @@ def valida_consulta(state: MessagesState) -> dict[str, Any]:
     
     tool_call = last.tool_calls[0]
     user_message = {"role": "user", "content": tool_call["args"]["query"]}
+    run_query_tool = next(t for t in sql_tools if t.name == "sql_db_query")
     llm_with_tools = llm.bind_tools([run_query_tool], tool_choice="any")
     resp = llm_with_tools.invoke([system_message, user_message])
     resp.id = last.id
