@@ -14,7 +14,7 @@ def create_agent():
     
     builder = StateGraph(MessagesState)
     builder.add_node("roteador", roteador)
-    builder.add_node("tools", tools_node)
+    builder.add_node("tools", tools_node) # execucao ocorre apenas aqui
     builder.add_node("valida_consulta", valida_consulta)
     
     builder.add_edge(START, "roteador")
