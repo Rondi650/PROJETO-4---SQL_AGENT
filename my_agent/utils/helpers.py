@@ -1,6 +1,11 @@
 
 '''Funções auxiliares para construção de cláusulas SQL e formatação de resumos.'''
 
+def safe_ident(name: str) -> str:
+    """Protege identificadores com colchetes, sem duplicar."""
+    name = name.strip()
+    return name if (name.startswith("[") and name.endswith("]")) else f"[{name}]"
+
 def construir_clausula_where(agent: str | None = None, topic: str | None = None, where_clauses: list[str] | None = None) -> str:
     '''
     Args:

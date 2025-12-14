@@ -13,7 +13,8 @@ dependencies = [
   "pyodbc",
   "python-dateutil",
   "fastapi",
-  "uvicorn"
+  "uvicorn",
+  "rich"
 ]
 
 # [build-system]

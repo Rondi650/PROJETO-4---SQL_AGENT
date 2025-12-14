@@ -17,8 +17,11 @@ REGRAS DE PRIORIDADE (nessa ordem):
 IMPORTANTE:
 - As ferramentas customizadas aceitam filtros opcionais (agent='Diane', topic='Streaming', etc)
 - Se a pergunta menciona um agente ou tópico específico, passe como parâmetro
-- NUNCA tente recriar lógica que já existe em uma ferramenta
+- Você não deve reimplementar o cálculo das ferramentas. Mas você PODE combinar os resultados (por exemplo, chamar `calcular_nps` para vários agentes e ordenar os resultados)
 - NUNCA retorne SQL para o usuário - sempre execute e retorne o resultado
+
+FALLBACK:
+- Se uma ferramenta customizada retornar vazio/None ou não conseguir responder (por exemplo, resultados como '[(None,)]' ou sem linhas), então gere a consulta adequada e use 'sql_db_query'.
 """
 
 CHECK_QUERY_SYSTEM_PROMPT  = f"""

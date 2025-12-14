@@ -2,7 +2,7 @@ from langgraph.graph import StateGraph, START, MessagesState
 from langgraph.prebuilt import ToolNode
 from langgraph.checkpoint.memory import InMemorySaver
 from .utils import (
-    all_tools,
+    ALL_TOOLS,
     roteador,
     should_continue,
     valida_consulta
@@ -10,7 +10,7 @@ from .utils import (
 
 def create_agent():
     """Cria e compila o grafo do agente"""
-    tools_node = ToolNode(all_tools, name="tools")
+    tools_node = ToolNode(ALL_TOOLS, name="tools")
     
     builder = StateGraph(MessagesState)
     builder.add_node("roteador", roteador)
