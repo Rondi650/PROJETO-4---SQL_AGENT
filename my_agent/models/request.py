@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field
 from typing import Annotated
 
 class PerguntaModel(BaseModel):
-    pergunta: Annotated[str, Field(min_length=1, max_length=200)]
+    pergunta: Annotated[str, Field(min_length=1, max_length=200, examples=["Quanto é 2+2?"])]
     
 class QueryParams(BaseModel):
     """Parâmetros para filtros de queries"""
