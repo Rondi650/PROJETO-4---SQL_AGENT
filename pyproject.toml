@@ -15,6 +15,7 @@ dependencies = [
   "python-dateutil>=2.9.0.post0",
   "fastapi>=0.124.4",
   "uvicorn>=0.38.0",
+  "langgraph-cli[inmem]>=0.4.9",
 ]
 
 [build-system]
