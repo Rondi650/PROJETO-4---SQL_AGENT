@@ -14,12 +14,14 @@ dependencies = [
   "python-dateutil",
   "fastapi",
   "uvicorn",
-  "rich"
+  "rich",
+  "langgraph-cli[inmem]",
 ]
 
-# [build-system]
-# requires = ["setuptools", "wheel"]
-# build-backend = "setuptools.build_meta"
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
 
-# [tool.setuptools]
-# packages = []
+[project.scripts]
+start_fastapi = "uvicorn main:app --reload"
+langgraph_cli = "langgraph dev --config ./langgraph.json"

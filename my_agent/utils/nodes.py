@@ -1,5 +1,5 @@
-from typing import Any
-from langgraph.graph import MessagesState, END
+from typing import Literal
+from langgraph.graph import MessagesState
 from langchain_core.messages import AIMessage, SystemMessage, HumanMessage
 from my_agent.config.settings import llm
 from my_agent.config.prompts import GENERATE_QUERY_SYSTEM_PROMPT, CHECK_QUERY_SYSTEM_PROMPT
@@ -14,10 +14,10 @@ def roteador(state: MessagesState) -> MessagesState:
     resp = llm_with_tools.invoke([system_message] + state["messages"])
     return {"messages": [resp]}
 
-def should_continue(state: MessagesState) -> str:
+def should_continue(state: MessagesState) -> Literal["valida_consulta", "tools", "__end__"]:
     last = state["messages"][-1]
     if not isinstance(last, AIMessage) or not last.tool_calls:
-        return END
+        return "__end__"
     tool_name = last.tool_calls[0]["name"]
     return "valida_consulta" if tool_name == "sql_db_query" else "tools"
 

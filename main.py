@@ -16,7 +16,6 @@ def chat_endpoint(data: PerguntaModel) -> RespostaModel:
 
     for step in agent.stream(
         {"messages": [HumanMessage(content=pergunta)]},
-        
         config=THREAD_CONFIG,
         stream_mode="values"
     ):

@@ -18,7 +18,7 @@ def create_agent():
     builder.add_node("valida_consulta", valida_consulta)
     
     builder.add_edge(START, "roteador")
-    builder.add_conditional_edges("roteador", should_continue)
+    builder.add_conditional_edges("roteador", should_continue, ["valida_consulta", "tools", "__end__"])
     builder.add_edge("tools", "roteador")
     builder.add_edge("valida_consulta", "tools")
     

@@ -1,7 +1,7 @@
 {
+  "$schema": "https://langgra.ph/schema.json",
   "dependencies": ["."],
   "graphs": {
-    "agent": "./my_agent/agent.py:agent"
-  },
-  "env": ".env"
+    "chat": "my_agent/agent.py:agent"
+  }
 }
