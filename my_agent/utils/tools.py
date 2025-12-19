@@ -65,11 +65,7 @@ def ligacoes_atendidas(params: QueryParams) -> str:
 @tool("nps_por_agente", description="NPS agrupado por campo. Args: data_inicio, data_fim, topic (opcional), group_by ('Agent'|'Topic', padrão 'Agent').")
 def nps_por_agente(params: QueryParams, group_by: Literal["Agent", "Topic"] = "Agent") -> str:
     group_col = safe_ident(group_by)
-    where_clauses = [
-        f"Date BETWEEN '{params.data_inicio}' AND '{params.data_fim}'",
-        "[Answered_Y_N] = 1",
-        "[Satisfaction_rating] IS NOT NULL",
-    ]
+    where_clauses = [f"Date BETWEEN '{params.data_inicio}' AND '{params.data_fim}'","[Answered_Y_N] = 1","[Satisfaction_rating] IS NOT NULL"]
     where_sql = construir_clausula_where(params.agent, params.topic, where_clauses)
     query = f"""
     SELECT {group_col} AS grupo,
@@ -89,11 +85,7 @@ def nps_por_agente(params: QueryParams, group_by: Literal["Agent", "Topic"] = "A
 @tool("tmo_por_agente", description="TMO médio por campo. Args: data_inicio, data_fim, topic (opcional), group_by ('Agent'|'Topic', padrão 'Agent').")
 def tmo_por_agente(params: QueryParams, group_by: Literal["Agent", "Topic"] = "Agent") -> str:
     group_col = safe_ident(group_by)
-    where_clauses = [
-        f"Date BETWEEN '{params.data_inicio}' AND '{params.data_fim}'",
-        "[Answered_Y_N] = 1",
-        "[AvgTalkDuration] IS NOT NULL",
-    ]
+    where_clauses = [f"Date BETWEEN '{params.data_inicio}' AND '{params.data_fim}'","[Answered_Y_N] = 1","[AvgTalkDuration] IS NOT NULL"]
     where_sql = construir_clausula_where(params.agent, params.topic, where_clauses)
     query = f"""
     SELECT {group_col} AS grupo,
@@ -111,10 +103,7 @@ def tmo_por_agente(params: QueryParams, group_by: Literal["Agent", "Topic"] = "A
 @tool("contatos_por_topico", description="Total de ligações agrupado. Args: data_inicio, data_fim, agent (opcional), group_by ('Topic'|'Agent', padrão 'Topic').")
 def contatos_por_topico(params: QueryParams, group_by: Literal["Topic", "Agent"] = "Topic") -> str:
     group_col = safe_ident(group_by)
-    where_clauses = [
-        f"Date BETWEEN '{params.data_inicio}' AND '{params.data_fim}'",
-        "[Answered_Y_N] = 1",
-    ]
+    where_clauses = [f"Date BETWEEN '{params.data_inicio}' AND '{params.data_fim}'","[Answered_Y_N] = 1"]
     where_sql = construir_clausula_where(params.agent, params.topic, where_clauses)
     query = f"""
     SELECT {group_col} AS grupo, COUNT(*) AS total

@@ -2,7 +2,13 @@
 '''Funções auxiliares para construção de cláusulas SQL e formatação de resumos.'''
 
 def safe_ident(name: str) -> str:
-    """Protege identificadores com colchetes, sem duplicar."""
+    """
+    Args:
+        name (str): Nome do identificador (coluna, tabela, etc.)
+        
+    Returns:
+        str: Nome seguro para uso em consultas SQL.
+    """
     name = name.strip()
     return name if (name.startswith("[") and name.endswith("]")) else f"[{name}]"
 
