@@ -22,11 +22,8 @@ def chat_endpoint(data: PerguntaModel) -> RespostaModel:
         print(step)
         print(Markdown("---"))
         
-        try:
-            msg: str = step["messages"][-1].content
-        except Exception:
-            msg = "Erro ao obter resposta do agente."
-        
+        msg = step["messages"][-1].content
+ 
     return RespostaModel(
         response=msg
     )

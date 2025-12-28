@@ -11,23 +11,23 @@ from rich.markdown import Markdown
 
 def roteador(state: MessagesState, config = RunnableConfig()) -> MessagesState:
     """LLM pode escolher qualquer tool (custom ou SQL)"""
-    print('Config no roteador:')
-    print(config)
-    Markdown("---")
+
+    temperatura = config.get("configurable", {}).get("temperature", 0)
+    print(Markdown(f"### Temperatura do LLM no roteador: {temperatura}"))
     
-    user_type = config.get("configurable", {}).get("user_type")
-    temperature = 1 if user_type == "plus" else 0
-    
-    llm_with_tools = load_llm().bind_tools(ALL_TOOLS)
-    llm_with_config = llm_with_tools.with_config(
-        {"configurable": {"temperature": temperature}}
-    )
+    llm_with_tools = load_llm(temperature=temperatura).bind_tools(ALL_TOOLS)
+
     system_message = SystemMessage(GENERATE_QUERY_SYSTEM_PROMPT)
     
-    print(f"{'#' * 50}")
-    print(llm_with_config.temperature)
-    print(f"{'#' * 50}")
-    resp = llm_with_config.invoke([system_message] + state["messages"])
+    resp = llm_with_tools.invoke([system_message] + state["messages"])
+    
+    print(Markdown("---"))
+    print('Config no roteador:')
+    print(config)
+    print(Markdown("---"))
+    
+    
+        
     return {"messages": [resp]}
 
 def should_continue(state: MessagesState) -> Literal["valida_consulta", "tools", "__end__"]:
