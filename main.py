@@ -25,7 +25,8 @@ def chat_endpoint(data: PerguntaModel) -> RespostaModel:
         msg = step["messages"][-1].content
  
     return RespostaModel(
-        response=msg
+        response=msg, 
+        config=runnable_config()
     )
     
 # Iniciar o servidor com: uvicorn main:app --reload
