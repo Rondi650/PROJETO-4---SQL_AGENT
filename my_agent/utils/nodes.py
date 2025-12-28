@@ -16,9 +16,16 @@ def roteador(state: MessagesState, config = RunnableConfig()) -> MessagesState:
     llm_with_config = llm_with_tools.with_config(config)
 
     system_message = SystemMessage(GENERATE_QUERY_SYSTEM_PROMPT)
+    print(Markdown("---"))
+    print('System Message Roteador:')
+    print("Fora de uma lista")
+    print(system_message)
+    print("Dentro de uma lista")
+    print([system_message])
+    print(Markdown("---"))
     
     resp = llm_with_config.invoke([system_message] + state["messages"])
-    
+
     print('Config no roteador:')
     print(config)
     print(Markdown("---"))
