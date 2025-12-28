@@ -8,6 +8,7 @@ from langchain.chat_models import BaseChatModel, init_chat_model
 load_dotenv()
 
 LLM_MODEL = "gpt-5.1-2025-11-13"
+MODEL_PROVIDER = "openai"
 LLM_TEMPERATURE = 0
 
 def runnable_config() -> RunnableConfig:
@@ -24,7 +25,8 @@ def load_llm() -> BaseChatModel:
     llm = init_chat_model(
         api_key=os.getenv("OPENAI_API_KEY"), 
         model=LLM_MODEL, 
-        temperature=LLM_TEMPERATURE,
+        model_provider="openai",
+        temperature=LLM_TEMPERATURE
     )
     
     return llm
