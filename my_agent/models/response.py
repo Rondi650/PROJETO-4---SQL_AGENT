@@ -7,4 +7,5 @@ class RespostaModel(BaseModel):
     response: str
     data_hora: datetime = Field(default_factory=datetime.utcnow)
     config: RunnableConfig | None = None
+    tokens_used: int | None = None
     

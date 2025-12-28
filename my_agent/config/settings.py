@@ -27,11 +27,11 @@ def runnable_config() -> RunnableConfig:
         recursion_limit=5
         )
 
-def load_llm(temperature: float | None = None) -> BaseChatModel:
-    temp = LLM_TEMPERATURE if temperature is None else temperature
+def load_llm() -> BaseChatModel:
+    # temp = LLM_TEMPERATURE if temperature is None else temperature
     llm = ChatOpenAI(
         api_key=SecretStr(os.getenv("OPENAI_API_KEY") or ""),
         model=LLM_MODEL,
-        temperature=temp,
+        temperature=0.5,
     )
     return llm
