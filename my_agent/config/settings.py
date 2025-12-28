@@ -1,17 +1,30 @@
 import os
 
 from dotenv import load_dotenv
-from langchain_openai import ChatOpenAI
-from pydantic import SecretStr
 from langgraph.graph.state import RunnableConfig
+from typing import Literal
+from langchain.chat_models import BaseChatModel, init_chat_model
 
 load_dotenv()
-
-THREAD_CONFIG = RunnableConfig(configurable={"thread_id": "default_thread"})
 
 LLM_MODEL = "gpt-5.1-2025-11-13"
 LLM_TEMPERATURE = 0
 
-api_key = SecretStr(os.getenv("OPENAI_API_KEY") or "")
+def runnable_config() -> RunnableConfig:
+    user_type: Literal["plus", "enterprise"] = "plus"
+    configurable={
+        "thread_id": "default_thread",
+        "User_type": user_type,
+        "temperature": LLM_TEMPERATURE,
+        }
+    return RunnableConfig(configurable=configurable)
 
-llm = ChatOpenAI(api_key=api_key, model=LLM_MODEL, temperature=LLM_TEMPERATURE)
+
+def load_llm() -> BaseChatModel:
+    llm = init_chat_model(
+        api_key=os.getenv("OPENAI_API_KEY"), 
+        model=LLM_MODEL, 
+        temperature=LLM_TEMPERATURE,
+    )
+    
+    return llm

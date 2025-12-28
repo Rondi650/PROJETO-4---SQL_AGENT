@@ -5,4 +5,3 @@ class RespostaModel(BaseModel):
     """Modelo para respostas de chat"""
     response: str
     data_hora: datetime = Field(default_factory=datetime.utcnow)
-    thread_id: str

@@ -1,10 +1,10 @@
 from .database import db
 from .prompts import GENERATE_QUERY_SYSTEM_PROMPT, CHECK_QUERY_SYSTEM_PROMPT
-from .settings import llm
+from .settings import load_llm
 
 __all__ = [
     "db", 
-    "llm", 
+    "load_llm", 
     "GENERATE_QUERY_SYSTEM_PROMPT", 
     "CHECK_QUERY_SYSTEM_PROMPT"
 ]

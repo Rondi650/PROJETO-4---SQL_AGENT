@@ -2,14 +2,14 @@ import sys
 from langchain.tools import tool, BaseTool
 from my_agent.config.database import db
 from langchain_community.agent_toolkits import SQLDatabaseToolkit
-from my_agent.config.settings import llm
+from my_agent.config.settings import load_llm
 from .helpers import construir_clausula_where, formatar_resumo_filtros, safe_ident
 from typing import Literal
 
 sys.path.append("..")
 from my_agent.models.request import QueryParams
 
-toolkit = SQLDatabaseToolkit(db=db, llm=llm)
+toolkit = SQLDatabaseToolkit(db=db, llm=load_llm())
 SQL_TOOLS: list[BaseTool] = toolkit.get_tools()
 
 

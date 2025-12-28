@@ -1,17 +1,33 @@
 from typing import Literal
 from langgraph.graph import MessagesState
 from langchain_core.messages import AIMessage, SystemMessage, HumanMessage
-from my_agent.config.settings import llm
+from langgraph.graph.state import RunnableConfig
+from my_agent.config.settings import load_llm
 from my_agent.config.prompts import GENERATE_QUERY_SYSTEM_PROMPT, CHECK_QUERY_SYSTEM_PROMPT
 from .tools import ALL_TOOLS, SQL_TOOLS
+from rich import print
+from rich.markdown import Markdown
 
 
-def roteador(state: MessagesState) -> MessagesState:
+def roteador(state: MessagesState, config = RunnableConfig()) -> MessagesState:
     """LLM pode escolher qualquer tool (custom ou SQL)"""
-    llm_with_tools = llm.bind_tools(ALL_TOOLS)
+    print('Config no roteador:')
+    print(config)
+    Markdown("---")
+    
+    user_type = config.get("configurable", {}).get("user_type")
+    temperature = 1 if user_type == "plus" else 0
+    
+    llm_with_tools = load_llm().bind_tools(ALL_TOOLS)
+    llm_with_config = llm_with_tools.with_config(
+        {"configurable": {"temperature": temperature}}
+    )
     system_message = SystemMessage(GENERATE_QUERY_SYSTEM_PROMPT)
     
-    resp = llm_with_tools.invoke([system_message] + state["messages"])
+    print(f"{'#' * 50}")
+    print(llm_with_config.temperature)
+    print(f"{'#' * 50}")
+    resp = llm_with_config.invoke([system_message] + state["messages"])
     return {"messages": [resp]}
 
 def should_continue(state: MessagesState) -> Literal["valida_consulta", "tools", "__end__"]:
@@ -33,7 +49,7 @@ def valida_consulta(state: MessagesState) -> MessagesState:
     tool_call = last.tool_calls[0]
     user_message = HumanMessage(tool_call["args"]["query"])
     run_query_tool = next(t for t in SQL_TOOLS if t.name == "sql_db_query")
-    llm_with_tools = llm.bind_tools([run_query_tool], tool_choice="any")
+    llm_with_tools = load_llm().bind_tools([run_query_tool], tool_choice="any")
     resp = llm_with_tools.invoke([system_message, user_message])
     resp.id = last.id
     return {"messages": [resp]}
