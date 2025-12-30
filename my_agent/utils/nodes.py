@@ -24,7 +24,7 @@ def roteador(state: MessagesState, config = RunnableConfig()) -> MessagesState:
     print([system_message])
     print(Markdown("---"))
     
-    resp = llm_with_config.invoke([system_message] + state["messages"])
+    resp = llm_with_config.invoke(input=[system_message] + state["messages"])
 
     print('Config no roteador:')
     print(config)
@@ -52,6 +52,6 @@ def valida_consulta(state: MessagesState) -> MessagesState:
     user_message = HumanMessage(tool_call["args"]["query"])
     run_query_tool = next(t for t in SQL_TOOLS if t.name == "sql_db_query")
     llm_with_tools = load_llm().bind_tools([run_query_tool], tool_choice="any")
-    resp = llm_with_tools.invoke([system_message, user_message])
+    resp = llm_with_tools.invoke(input=[system_message, user_message])
     resp.id = last.id
     return {"messages": [resp]}

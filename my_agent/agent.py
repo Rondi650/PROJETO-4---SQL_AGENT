@@ -1,4 +1,5 @@
 from langgraph.graph import StateGraph, START, MessagesState
+from langgraph.graph.state import CompiledStateGraph
 from langgraph.prebuilt import ToolNode
 from langgraph.checkpoint.memory import InMemorySaver
 from .utils import (

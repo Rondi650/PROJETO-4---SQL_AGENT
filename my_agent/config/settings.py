@@ -14,7 +14,7 @@ MODEL_PROVIDER = "openai"
 LLM_TEMPERATURE = 0
 
 def runnable_config() -> RunnableConfig:
-    user_type: Literal["plus", "enterprise", "basic"] = "plus"
+    user_type: Literal["plus", "enterprise", "basic"] = "basic"
     configurable={
         "thread_id": "default_thread",
         "user_type": user_type,
@@ -27,11 +27,15 @@ def runnable_config() -> RunnableConfig:
         recursion_limit=5
         )
 
-def load_llm() -> BaseChatModel:
+def load_llm():
     # temp = LLM_TEMPERATURE if temperature is None else temperature
     llm = ChatOpenAI(
         api_key=SecretStr(os.getenv("OPENAI_API_KEY") or ""),
         model=LLM_MODEL,
         temperature=0.5,
     )
+    
+    # llm.invoke() # Apenas para identificar a tipagem pelo rastreio
+
     return llm
+

@@ -17,7 +17,7 @@ def chat_endpoint(data: PerguntaModel) -> RespostaModel:
 
     total_tokens = 0
     for step in agent.stream(
-        {"messages": [HumanMessage(content=pergunta)]},
+        input={"messages": [HumanMessage(content=pergunta)]},
         config=runnable_config(),
         stream_mode="values"
     ):
