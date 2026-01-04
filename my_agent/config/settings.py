@@ -6,6 +6,7 @@ from typing import Literal
 from pydantic import SecretStr
 from langchain.chat_models import BaseChatModel
 from langchain_openai import ChatOpenAI
+from dataclasses import dataclass
 
 load_dotenv()
 
@@ -26,7 +27,7 @@ def runnable_config() -> RunnableConfig:
         max_concurrency=2,
         recursion_limit=5
         )
-
+ 
 def load_llm():
     # temp = LLM_TEMPERATURE if temperature is None else temperature
     llm = ChatOpenAI(
