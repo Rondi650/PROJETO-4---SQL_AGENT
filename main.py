@@ -13,6 +13,7 @@ app = FastAPI()
 def chat_endpoint(data: PerguntaModel) -> RespostaModel:
     """Endpoint para chat com o agente"""
     pergunta = data.pergunta
+    msg = ''
 
     for step in agent.stream(
         {"messages": [HumanMessage(content=pergunta)]},
