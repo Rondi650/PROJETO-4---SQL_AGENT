@@ -3,13 +3,9 @@ from langchain.tools import tool, BaseTool
 from my_agent.config.database import db
 from .helpers import construir_clausula_where, formatar_resumo_filtros, safe_ident
 from typing import Literal
-import logging
 
 sys.path.append("..")
 from my_agent.models.request import QueryParams
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("uvicorn.error")
 
 @tool("calcular_nps", description="Calcula o NPS (Net Promoter Score). Args: data_inicio (YYYY-MM-DD), data_fim (YYYY-MM-DD), agent (opcional, ex: 'Diane'), topic (opcional).")
 def calcular_nps(params: QueryParams) -> str:
@@ -113,25 +109,8 @@ def contatos_por_topico(params: QueryParams, group_by: Literal["Topic", "Agent"]
     rows = db.run(query)
     return f"Contatos por {group_by} ({params.data_inicio} a {params.data_fim}): {rows}"
 
-
-@tool("sql_db_query", description="Execute uma consulta SQL na base de dados e retorne o resultado.")
-def sql_db_query(*, query: str) -> str:
-    """
-    Execute a SQL query against the database and get back the result.
-    If the query is not correct, an error message will be returned.
-    If an error is returned, rewrite the query, check the query, and try again.
-    """
-    try:
-        result = db.run(query)
-        if isinstance(result, str):
-            return result
-        return str(result)
-    except Exception as e:
-        logger.exception(f"Error executing query: {str(e)}")
-        return f"Error executing query: {str(e)}"
-    
-
 CUSTOM_TOOLS: list[BaseTool] = [
     ligacoes_atendidas, calcular_tmo, calcular_nps,
-    nps_por_agente, tmo_por_agente, contatos_por_topico, sql_db_query
+    nps_por_agente, tmo_por_agente, contatos_por_topico
 ]
+TOOLS_BY_NAME: dict[str, BaseTool] = {tool.name: tool for tool in CUSTOM_TOOLS}

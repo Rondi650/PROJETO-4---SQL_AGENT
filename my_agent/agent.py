@@ -5,7 +5,6 @@ from .utils import (
     CUSTOM_TOOLS,
     roteador,
     should_continue,
-    valida_consulta
 )
 
 def create_agent():
@@ -14,13 +13,11 @@ def create_agent():
     
     builder = StateGraph(MessagesState)
     builder.add_node("roteador", roteador)
-    builder.add_node("tools", tools_node) # execucao ocorre apenas aqui
-    builder.add_node("valida_consulta", valida_consulta)
+    builder.add_node("tools", tools_node) # execucao ocorre apenas aqui)
     
     builder.add_edge(START, "roteador")
-    builder.add_conditional_edges("roteador", should_continue, ["valida_consulta", "tools", "__end__"])
+    builder.add_conditional_edges("roteador", should_continue, ["tools", "__end__"])
     builder.add_edge("tools", "roteador")
-    builder.add_edge("valida_consulta", "tools")
     
     checkpointer = InMemorySaver()
     agent = builder.compile(checkpointer=checkpointer)
