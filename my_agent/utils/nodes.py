@@ -3,12 +3,12 @@ from langgraph.graph import MessagesState
 from langchain_core.messages import AIMessage, SystemMessage, HumanMessage
 from my_agent.config.settings import llm
 from my_agent.config.prompts import GENERATE_QUERY_SYSTEM_PROMPT, CHECK_QUERY_SYSTEM_PROMPT
-from .tools import ALL_TOOLS, SQL_TOOLS
+from .tools import CUSTOM_TOOLS
 
 
 def roteador(state: MessagesState) -> MessagesState:
     """LLM pode escolher qualquer tool (custom ou SQL)"""
-    llm_with_tools = llm.bind_tools(ALL_TOOLS)
+    llm_with_tools = llm.bind_tools(CUSTOM_TOOLS, tool_choice="any")
     system_message = SystemMessage(GENERATE_QUERY_SYSTEM_PROMPT)
     
     resp = llm_with_tools.invoke([system_message] + state["messages"])
@@ -32,7 +32,7 @@ def valida_consulta(state: MessagesState) -> MessagesState:
     
     tool_call = last.tool_calls[0]
     user_message = HumanMessage(tool_call["args"]["query"])
-    run_query_tool = next(t for t in SQL_TOOLS if t.name == "sql_db_query")
+    run_query_tool = next(t for t in CUSTOM_TOOLS if t.name == "sql_db_query")
     llm_with_tools = llm.bind_tools([run_query_tool], tool_choice="any")
     resp = llm_with_tools.invoke([system_message, user_message])
     resp.id = last.id
