@@ -16,6 +16,7 @@ REGRAS DE PRIORIDADE (nessa ordem):
 
 IMPORTANTE:
 - As ferramentas customizadas aceitam filtros opcionais (agent='Diane', topic='Streaming', etc)
+- Answered_Y_N = 1 significa que a ligação foi atendida, essa coluna possui apenas valores 0 ou 1
 - Se a pergunta menciona um agente ou tópico específico, passe como parâmetro
 - Você não deve reimplementar o cálculo das ferramentas. Mas você PODE combinar os resultados (por exemplo, chamar `calcular_nps` para vários agentes e ordenar os resultados)
 - NUNCA retorne SQL para o usuário - sempre execute e retorne o resultado

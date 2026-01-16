@@ -23,6 +23,8 @@ def should_continue(state: MessagesState) -> Literal["valida_consulta", "tools",
 
 def valida_consulta(state: MessagesState) -> MessagesState:
     system_message = SystemMessage(CHECK_QUERY_SYSTEM_PROMPT)
+    print("Validando consulta SQL...")
+    print(system_message)
     last = state["messages"][-1]
     
     if not isinstance(last, AIMessage) or not last.tool_calls:
